@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Services Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff0080;
+            --dark: #121212;
+            --light: #f8f9fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transform-style: preserve-3d;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(0); }
+            50% { transform: translateY(-20px) rotateY(5deg); }
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+            transform: translateZ(10px);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px) translateZ(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .buy-key {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .buy-key a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .buy-key a:hover {
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        .developer-name {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .developer-name span {
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: none;
+            transform-style: preserve-3d;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            transform: translateZ(20px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .service-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px) rotateY(5deg) translateZ(10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .service-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .service-description {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .service-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .courses-section {
+            margin-top: 50px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatAround 15s infinite linear;
+        }
+
+        @keyframes floatAround {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 100px) rotate(90deg);
+            }
+            50% {
+                transform: translate(200px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(100px, -100px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
+        <div class="floating-element" style="top: 60%; left: 10%; animation-delay: 2s;"></div>
+        <div class="floating-element" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+        <div class="floating-element" style="top: 40%; left: 90%; animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h2 class="login-title">Premium Services Hub</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="login-btn" id="loginBtn">Access Premium Content</button>
+            <div class="error-message" id="errorMessage">Invalid username or password!</div>
+            <div class="buy-key">
+                <a href="https://wa.me/923152825720" target="_blank">Buy Access Key</a>
+            </div>
+            <div class="developer-name">
+                Developed by <span>atif_hacker</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <div class="header">
+                <h1>Premium Services Hub</h1>
+                <p>Unlock premium apps, tools, and courses at unbeatable prices</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Premium Apps -->
+                <div class="service-card" data-link="https://www.mediafire.com/file/3wqwb22h12v8uq9/Netflix+Premium+v9.45.0+Modded+by+@Getmodpcs.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3 class="service-title">Netflix Premium</h3>
+                    <p class="service-description">Unlock all Netflix premium features for free</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/1c87ctsl08bp4f9/YouTube+Premium+v20.37.48+Modded+by+@Getmodpcs.apk/file">
+                    <div class="service-icon">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <h3 class="service-title">YouTube Premium</h3>
+                    <p class="service-description">Ad-free YouTube with background play</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/2hd7dsy8ni4nw6z/Adobe+Photoshop+Premium+v18.1.6+Modded+by+@Getmodpcs.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <h3 class="service-title">Photoshop Premium</h3>
+                    <p class="service-description">Full Photoshop premium unlocked</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://wa.me/923152825720">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="service-title">ChatGPT Premium</h3>
+                    <p class="service-description">Access to premium ChatGPT features</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/pgjip6w2uj6f0tv/GHOST+BOT+x14_signed.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3 class="service-title">Free Fire UC Panel</h3>
+                    <p class="service-description">Get unlimited UC for Free Fire</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/s4uclor6htziynr">
+                    <div class="service-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="service-title">PUBG Hack</h3>
+                    <p class="service-description">Advanced hacks for PUBG Mobile</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <!-- Fake Payment Options -->
+                <div class="service-card" data-link="https://www.mediafire.com/file/vfv4m3rqhuiiguk/EasyPaisa+Fake+Receipt.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="service-title">Fake Easypaisa</h3>
+                    <p class="service-description">Generate fake Easypaisa transactions</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/v70toh0ne6vjza6/JazzCash+Receipt+Fake.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3 class="service-title">Fake JazzCash</h3>
+                    <p class="service-description">Create fake JazzCash payment proofs</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <!-- Additional Premium Apps -->
+                <div class="service-card" data-link="https://www.mediafire.com/file/hrffb44updo48xb/Remini+Premium+v3.7.3529.202516929+Modded+by+@Getmodpcs.apk/file">
+                    <div class="service-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="service-title">Remini Premium</h3>
+                    <p class="service-description">Enhance photo quality with AI</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://wa.me/923152825720">
+                    <div class="service-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3 class="service-title">After Effects Premium</h3>
+                    <p class="service-description">Professional video editing unlocked</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://www.mediafire.com/file/rp1h066wirko5tj/AIRAVAT-main.zip/file">
+                    <div class="service-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="service-title">Airvart Premium</h3>
+                    <p class="service-description">Advanced graphic design tool</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <!-- Hacking Tools -->
+                <div class="service-card" data-link="https://www.mediafire.com/file/cv940jj40415a6r/%E1%B4%85%E1%B4%8F%C9%A2%E1%B4%87+%CA%80%E1%B4%80%E1%B4%9B+%E1%B4%9C%CA%9F%E1%B4%9B%C9%AA%E1%B4%8D%E1%B4%80%E1%B4%9B%E1%B4%87+%E1%B4%A0%E1%B4%87%CA%80s%C9%AA%E1%B4%8F%C9%B4.zip/file">
+                    <div class="service-icon">
+                        <i class="fas fa-dog"></i>
+                    </div>
+                    <h3 class="service-title">Doge RAT</h3>
+                    <p class="service-description">Remote Administration Tool</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://wa.me/923152825720">
+                    <div class="service-icon">
+                        <i class="fas fa-skull"></i>
+                    </div>
+                    <h3 class="service-title">Medusa RAT</h3>
+                    <p class="service-description">Remote Administration Tool</p>
+                    <div class="service-price">FREE</div>
+                </div>
+
+                <div class="service-card" data-link="https://wa.me/923152825720">
+                    <div class="service-icon">
+                        <i class="fas fa-bug"></i>
+                    </div>
+                    <h3 class="service-title">PUBG POP Hack</h3>
+                    <p class="service-description">Special hack for PUBG</p>
+                    <div class="service-price">FREE</div>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div class="courses-section">
+                <h2 class="section-title">Premium Courses</h2>
+                <div class="services-grid">
+                    <div class="service-card" data-link="https://wa.me/923152825720">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="service-title">Cyber Security Course</h3>
+                        <p class="service-description">Become a cybersecurity expert</p>
+                        <div class="service-price">$20</div>
+                    </div>
+
+                    <div class="service-card" data-link="https://wa.me/923152825720">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="service-title">Web Development Course</h3>
+                        <p class="service-description">Full stack web development</p>
+                        <div class="service-price">$20</div>
+                    </div>
+
+                    <div class="service-card" data-link="https://wa.me/923152825720">
+                        <div class="service-icon">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <h3 class="service-title">Hacking Course</h3>
+                        <p class="service-description">Learn ethical hacking techniques</p>
+                        <div class="service-price">$20</div>
+                    </div>
+
+                    <div class="service-card" data-link="https://wa.me/923152825720">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="service-title">Waqar Zaka Trading Course</h3>
+                        <p class="service-description">Master cryptocurrency trading</p>
+                        <div class="service-price">$20</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>© 2023 Premium Services Hub. All rights reserved.</p>
+                <p>Contact: <a href="https://wa.me/923152825720" style="color: var(--accent);">WhatsApp</a></p>
+                <p>Developed by <span style="color: var(--accent);">atif_hacker</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login functionality
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (username === 'atifali' && password === 'hacker123') {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            } else {
+                errorMessage.style.display = 'block';
+                // Shake animation for error
+                document.querySelector('.login-box').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.querySelector('.login-box').style.animation = 'float 6s ease-in-out infinite';
+                }, 500);
+            }
+        });
+
+        // Add shake animation for errors
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                50% { transform: translateX(10px); }
+                75% { transform: translateX(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Service card click functionality
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.getAttribute('data-link');
+                if (link) {
+                    window.open(link, '_blank');
+                }
+            });
+        });
+
+        // Add enter key login
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>
